@@ -53,34 +53,43 @@ Keterangan:
    ![2  BUAT BYE TOPOLOGI UML](https://user-images.githubusercontent.com/49342639/103088520-b0415680-461d-11eb-9009-79e0825e8878.PNG)
 4. Setting IP untuk setiap UML pada file **/etc/network/interfaces** sesuai dengan pembagian IP pada setiap subnet
    - **SURABAYA (Sebagai Router)**
+  
     ![INTERFACES SURABAYA 1_New](https://user-images.githubusercontent.com/49342639/103094926-77ab7800-4631-11eb-8bd2-fbfa6a7c40a2.PNG)
     ![INTERFACES SURABAYA 2_New](https://user-images.githubusercontent.com/49342639/103095015-b2151500-4631-11eb-9ec0-02715b414e4e.PNG)
 
    - **KEDIRI (Sebagai Router)**
+    
     ![INTERFACES KEDIRI 1_New](https://user-images.githubusercontent.com/49342639/103107702-57041200-4673-11eb-891c-87edbee6c369.PNG)
     ![INTERFACES KEDIRI 2_New](https://user-images.githubusercontent.com/49342639/103107703-59ff0280-4673-11eb-8f98-af4631be5030.PNG)
 
    - **BATU (Sebagai Router)**
+    
     ![INTERFACES BATU 1_New](https://user-images.githubusercontent.com/49342639/103107740-c1b54d80-4673-11eb-9f4f-dafe659be1ca.PNG)
     ![INTERFACES BATU 2_New](https://user-images.githubusercontent.com/49342639/103107742-c417a780-4673-11eb-83f0-57461786f8db.PNG)
 
    _**Note**: untuk Klien **GRESIK** dan **SIDOARJO** diberikan IP Dinamis_
    - **GRESIK (Sebagai Klien)**
+    
     ![INTERFACES GRESIK_New](https://user-images.githubusercontent.com/49342639/103107822-967f2e00-4674-11eb-8709-4f9d66fe3bd9.PNG)
 
    - **SIDOARJO (Sebagai Klien)**
+    
     ![INTERFACES SIDOARJO_New](https://user-images.githubusercontent.com/49342639/103107826-a39c1d00-4674-11eb-86ec-e0bc8a69ca76.PNG)
 
    - **PROBOLINGGO (Sebagai Server)**
+    
     ![INTERFACES PROBOLINGGO_New](https://user-images.githubusercontent.com/49342639/103107850-f07ff380-4674-11eb-9e73-53faddeea72a.PNG)
 
    - **MADIUN (Sebagai Server)**
+    
     ![INTERFACES MADIUN_New](https://user-images.githubusercontent.com/49342639/103107853-fbd31f00-4674-11eb-8702-07b6c10b7458.PNG)
 
    - **MOJOKERTO (Sebagai Server)**
+    
     ![INTERFACES MOJOKERTO_New](https://user-images.githubusercontent.com/49342639/103107871-2f15ae00-4675-11eb-93b6-fdb6f3bd6af9.PNG)
 
    - **MALANG (Sebagai Server)**
+    
     ![INTERFACES MALANG_New](https://user-images.githubusercontent.com/49342639/103107875-3a68d980-4675-11eb-90df-839c277c57ca.PNG)
 
 5. Routing pada setiap router dengan menambahkan dua perintah:
@@ -92,17 +101,20 @@ Keterangan:
    - **SURABAYA (Sebagai Router)**
     
       _**Note**: Server SURABAYA diberikan route ke arah subnet A3, A4, A5 dan B1_
+      
       ![ROUTE SURABAYA 1_New](https://user-images.githubusercontent.com/49342639/103107988-0346f800-4676-11eb-90ac-2fb9ffee1ada.PNG)
       ![ROUTE SURABAYA 2_New](https://user-images.githubusercontent.com/49342639/103107989-05a95200-4676-11eb-83be-cddffeb6f80f.PNG)
 
    - **KEDIRI (Sebagai Router)**
    
      _**Note**: Server KEDIRI diberikan default route_
+     
      ![ROUTE KEDIRI 1_New](https://user-images.githubusercontent.com/49342639/103108035-8d8f5c00-4676-11eb-9a1a-989c429e3dd7.PNG)
 
    - **BATU (Sebagai Server)**
    
       _**Note**: Server KEDIRI diberikan default route_
+      
       ![ROUTE BATU 1_New](https://user-images.githubusercontent.com/49342639/103108063-c4657200-4676-11eb-8149-6e91a0b72020.PNG)
 
 
