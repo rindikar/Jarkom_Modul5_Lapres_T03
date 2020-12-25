@@ -316,7 +316,7 @@ Syntax berikut diatur pada **SURABAYA**, **MALANG** dan **MOJOKERTO** (karena me
   
    ```sh
    iptables -N LOGGING
-   iptables -A FORWARD -d 10.151.73.152/29 -i eth0 -p tcp -m tcp --dport 22 -j LOGGING
+   iptables -A INPUT -p icmp -m connlimit --connlimit-above 3 --connlimit-mask 0 -j LOGGING
    iptables -A LOGGING -m limit --limit 2/min -j LOG --log-prefix "IPTables-Dropped: " --log-level 4
    iptables -A LOGGING -j DROP
    ```
