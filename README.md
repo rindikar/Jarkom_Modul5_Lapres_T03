@@ -45,6 +45,9 @@ Keterangan:
    | A4     | 192.168.2.0     | /24     |  
    | A5     | 192.168.3.0     | /29     |  
    | B1     | 10.151.73.152   | /29     | 
+
+   ![Pembagian IP](https://user-images.githubusercontent.com/49342639/103135408-bcdfb080-46ea-11eb-976f-2f30f573673d.PNG)
+
 3. Pembuatan jumlah router, switch, server, klien dan banyaknya eth di UML disesuaikan dengan topologi yang diminta.
    Sintaks pembuatan topologi di UML ini berada pada file **topologi.sh**
    ![1  BUAT TOPOLOGI UML](https://user-images.githubusercontent.com/49342639/103081077-c218fe80-4609-11eb-90bb-ea4bf5fef70f.PNG)
@@ -326,3 +329,5 @@ Syntax berikut diatur pada **SURABAYA**, **MALANG** dan **MOJOKERTO** (karena me
    - ```iptables -N LOGGING```: membuat chain baru bernama **LOGGING**
    - ```iptables -A INPUT -p icmp -m connlimit --connlimit-above 3 --connlimit-mask 0 -j LOGGING```: aturan iptables DROP yang ada di **soal 3** akan melompat ke rantai LOGGING
    - ```iptables -A LOGGING -m limit --limit 2/min -j LOG --log-prefix "IPTables-Dropped: " --log-level 4```: disini kita menggunakan ```m limit``` _limit matching module_ agar dapat membatasi logging menjadi ```--limit 2/min``` 2 per menit dengan tujuan agar pesan log tidak menjadi kacau karena adanya pesan berulang dari paket yang sama, dimana pesan log tersebut ```-j LOG``` ditulis ke file log. Kemudian,  ```--log-prefix "IPTables-Dropped: "``` kita dapat menentukan awalan log apa pun untuk menandai aturan log ini (disini kita menggunakan prefix **IPTables-Dropped**) yang akan ditambahkan ke pesan log yang berada di default log file **/var/log/messages**. Lalu, kita juga memakai ```--log-level 4``` level syslog standar dan ```iptables -A LOGGING -j DROP``` semua paket yang masuk ke rantai **LOGGING** di DROP.
+
+_**Note**_: Semua aturan iptables tersebut, kita ```iptables-save``` simpan di file **/etc/iptables/rules.v4** di setiap UML yang mempunyai aturan iptables yaitu **SURABAYA**, **MALANG** dan **MOJOKERTO**.
