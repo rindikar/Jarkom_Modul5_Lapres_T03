@@ -183,6 +183,19 @@ Keterangan:
 
     1. ```SERVERS="10.151.73.154"```: Server **MOJOKERTO** diminta oleh DHCP Relay  **KEDIRI** untuk meneruskan DHCP Request, sehingga kita mengisi ```SERVERS=``` ini dengan IP dari DHCP Server **MOJOKERTO** yaitu 10.151.73.154
     2. ```INTERFACES="eth0 eth2"```: DHCP Relay **KEDIRI** akan meneruskan DHCP Request dari subnet _A3_ (**GRESIK**) dari network interfaces ```eth0 eth2```
+    
+### Soal 1
+Agar topologi yang kita buat dapat mengakses keluar, kita diminta untuk mengkonfigurasi
+**SURABAYA** menggunakan **iptables**, namun Bibah tidak ingin kalian menggunakan
+MASQUERADE.
+
+**Solusi**:
+
+```iptables -t nat -A POSTROUTING -s 192.168.0.0/16 -j SNAT --to-source 10.151.72.78```
+
+**Penjelasan**:
+
+Kita menggunakan NAT Table pada POSTROUTING chain untuk mengubah _source address_ yang awalnya berupa _private IPv4 address_ yang memiliki 16-bit blok dari _private IP addresses_ yaitu **192.168.0.0/16** menjadi **IP eth0 SURABAYA** yaitu **10.151.72.78** karena **SURABAYA** adalah satu-satunya router yang terhubung ke cloud melalui **eth0**
 
    
 
