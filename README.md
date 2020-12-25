@@ -125,7 +125,8 @@ Keterangan:
    
    - Agar DHCP Server **MOJOKERTO** dapat berjalan dengan lancar, maka kita perlu untuk melakukan deklarasi subnet yang terkoneksi pada **MOJOKERTO** yakni subnet _B1_, _A4_ dan _A3_ pada file **etc/dhcp/dhcpd.conf***
      - Deklarasi subnet _B1_
-     - _**Note**:Untuk subnet _B1_ ini hanya harus dideklarasikan, tetapi tidak harus memiliki settingan DHCP
+     
+      _**Note**:Untuk subnet _B1_ ini hanya harus dideklarasikan, tetapi tidak harus memiliki settingan DHCP_
      
       ![DHCPD CONF MOJOKERTO SUBNET eth0 MOJOKERTO](https://user-images.githubusercontent.com/49342639/103111858-e74a5300-4683-11eb-8237-7d54f057e08c.PNG)
 
@@ -152,5 +153,36 @@ Keterangan:
        4. ```option domain-name-servers 10.151.73.155 , 202.46.129.2 , 10.151.36.7;```: DNS yang ingin kita berikan kepada klien dari subnet _A3_ **(GRESIK)** yang terdiri dari **IP MOJOKERTO (10.151.73.155), 202.46.129.2 dan 10.151.36.7 secara otomatis
        5. ```default-lease-time 600;```: Lama waktu DHCP server meminjamkan alamat IP kepada klien dari subnet _A3_ **(GRESIK)**  adalah 10 menit (600 detik)
        6. ```max-lease-time 7200;```: Waktu maksimal yang di alokasikan untuk peminjaman IP oleh DHCP server ke klien dari subnet _A3_ **(GRESIK)**  adalah 120 menit (7200 detik)
+   
+7. Agar DHCP Request dari subnet **SIDOARJO** dan subnet **GRESIK** dapat diteruskan ke DHCP Server **MOJOKERTO**, maka kita memerlukan DHCP Relay di ketiga router yaitu **SURABAYA**, **KEDIRI** dan **BATU**
+   - Oleh karena itu, hal pertama yang kita lakukan pada router SURABAYA, KEDIRI dan BATU adalah menginstall DHCP Relay menggunakan _command_ ```apt-get install isc-dhcp-relay```
+   - Setelah proses penginstallan berhasil, kita mulai untuk melakukan _setting_ server dan _setting_ interfaces yang membantu DHCP Request dapat diteruskan dengan baik ke DHCP Server pada file **/etc/default/isc-dhcp-relay**
+   - **DHCP Relay pada BATU**
+   
+   ![DHCP RELAY BATU_New](https://user-images.githubusercontent.com/49342639/103114167-3302f980-4690-11eb-9a71-aa922ccedf73.PNG)
 
+   _**Note**_:
+
+   1. ```SERVERS="10.151.73.154"```: Server **MOJOKERTO** diminta oleh DHCP Relay  **BATU** untuk meneruskan DHCP Request, sehingga kita mengisi ```SERVERS=``` ini dengan IP dari DHCP Server **MOJOKERTO** yaitu 10.151.73.154
+   2. ```INTERFACES="eth0 eth1 eth2"```: DHCP Relay **BATU** akan meneruskan DHCP Request dari subnet _A3_ (**GRESIK**) dan subnet _A4_ (**SIDOARJO**) dari network interfaces ```eth0 eth1 eth2```
+
+   - **DHCP Relay pada SURABAYA**
+   
+    ![DHCP RELAY SURABAYA_New](https://user-images.githubusercontent.com/49342639/103118304-e07e0900-46a0-11eb-8e5b-85209708787e.PNG)
+
+    _**Note**_:
+
+    1. ```SERVERS="10.151.73.154"```: Server **MOJOKERTO** diminta oleh DHCP Relay  **SURABAYA** untuk meneruskan DHCP Request, sehingga kita mengisi ```SERVERS=``` ini dengan IP dari DHCP Server **MOJOKERTO** yaitu 10.151.73.154
+    2. ```INTERFACES="eth1 eth2"```: DHCP Relay **SURABAYA** akan meneruskan DHCP Request dari subnet _A3_ (**GRESIK**) dari network interfaces ```eth1 eth2```
+
+   - **DHCP Relay pada KEDIRI**
+   
+    ![DHCP RELAY KEDIRI_New](https://user-images.githubusercontent.com/49342639/103118409-49fe1780-46a1-11eb-8519-ec60e600e359.PNG)
+
+    _**Note**_:
+
+    1. ```SERVERS="10.151.73.154"```: Server **MOJOKERTO** diminta oleh DHCP Relay  **KEDIRI** untuk meneruskan DHCP Request, sehingga kita mengisi ```SERVERS=``` ini dengan IP dari DHCP Server **MOJOKERTO** yaitu 10.151.73.154
+    2. ```INTERFACES="eth0 eth2"```: DHCP Relay **KEDIRI** akan meneruskan DHCP Request dari subnet _A3_ (**GRESIK**) dari network interfaces ```eth0 eth2```
+
+   
 
