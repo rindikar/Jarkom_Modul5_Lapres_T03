@@ -269,3 +269,45 @@ iptables -A INPUT -s 192.168.1.0/24 -m time --timestart 07:01 --timestop 16:59 -
 **Penjelasan**:
 
 Kita menggunakan ```-A INPUT``` INPUT chain untuk menyaring paket yang masuk dari ```-s 192.168.1.0/24``` subnet **GRESIK** ```-m time --timestart 07:01 --timestop 16:59``` di waktu jam 07:01 sampai dengan jam 16:59 pada hari apapun agar ```-j REJECT``` ditolak dan mengirimkan _error message_
+
+## Soal 6
+Karena kita memiliki 2 buah WEB Server (**PROBOLINGGO** dan **MADIUN**), Bibah ingin SURABAYA disetting sehingga setiap request dari klien yang mengakses DNS Server **MALANG** akan didistribusikan secara bergantian pada
+**PROBOLINGGO port 80** dan **MADIUN port 80**
+
+**Solusi**:
+
+Syntax berikut diatur pada router **SURABAYA**:
+
+```sh
+iptables -A PREROUTING -t nat -p tcp -d 10.151.73.155 -m statistic --mode nth --every 2 --packet 0 -j DNAT --to-destination 192.168.3.3:80
+iptables -A PREROUTING -t nat -p tcp -d 10.151.73.155 -j DNAT --to-destination 192.168.3.2:80
+```
+
+**Penjelasan**:
+
+ Pada kasus ini kita menggunakan solusi **Load Balancing** untuk mendistribusikan koneksi.
+ Untuk mengatasi masalah ini, kita menggunakan ```-A PREROUTING``` PREROUTING chain pada ```-t nat``` NAT table untuk mengubah _destination IP_ yang awalnya menuju ke ```10.151.73.155``` DNS Server **MALANG** menjadi ke  ```192.168.3.3:80``` Server **MADIUN port 80** dan ```192.168.3.2:80``` Server **PROBOLINGGO port 80**. Iptables ini juga menyertakan salah satu modul yang ada dalam aturan **Load Balancing** yaitu ```-m statistic``` modul statistik. Mode yang digunakan dari modul statistik untuk mengatasi **soal 6** ini adalah ```--mode nth``` yang mengkonfigurasi agar aturan dilewati berdasarkan algoritma **Round Robin**. Algoritma ini mengambil dua parameter yang berbeda yaitu setiap (n) dan paket (p). Aturan tersebut akan dievaluasi ```--every 2``` setiap 2 paket mulai dari ```--packet 0``` paket 0.
+
+   _**Note**: **Load Balancing** hanya akan dilakukan selama fase koneksi protokol TCP sehingga kita juga mendeklarasikan syntax_ ```-p tcp``` _didalam syntax solusi soal 6 di atas_
+
+## Soal 7
+Bibah ingin agar semua paket didrop oleh firewall (dalam topologi) tercatat dalam log pada setiap
+UML yang memiliki aturan drop.
+
+**Solusi**:
+
+Syntax berikut diatur pada **SURABAYA**, **MALANG** dan **MOJOKERTO** (karena memiliki aturan DROP):
+
+-  Syntax logging yang ada di **SURABAYA**:
+  
+   ```sh
+   iptables -N LOGGING
+   iptables -A FORWARD -d 10.151.73.152/29 -i eth0 -p tcp -m tcp --dport 22 -j LOGGING
+   iptables -A LOGGING -m limit --limit 2/min -j LOG --log-prefix "IPTables-Dropped: " --log-level 4
+   iptables -A LOGGING -j DROP
+   ```
+  
+   **Penjelasan dari syntax logging di SURABAYA**:
+   - ```iptables -N LOGGING```: membuat chain baru bernama **LOGGING**
+
+
