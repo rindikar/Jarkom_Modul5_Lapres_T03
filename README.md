@@ -183,19 +183,46 @@ Keterangan:
 
     1. ```SERVERS="10.151.73.154"```: Server **MOJOKERTO** diminta oleh DHCP Relay  **KEDIRI** untuk meneruskan DHCP Request, sehingga kita mengisi ```SERVERS=``` ini dengan IP dari DHCP Server **MOJOKERTO** yaitu 10.151.73.154
     2. ```INTERFACES="eth0 eth2"```: DHCP Relay **KEDIRI** akan meneruskan DHCP Request dari subnet _A3_ (**GRESIK**) dari network interfaces ```eth0 eth2```
-    
+
 ## Soal 1
 Agar topologi yang kita buat dapat mengakses keluar, kita diminta untuk mengkonfigurasi
 **SURABAYA** menggunakan **iptables**, namun Bibah tidak ingin kalian menggunakan
 MASQUERADE.
 
 **Solusi**:
+Syntax berikut diatur pada router **SURABAYA**:
 
 ```iptables -t nat -A POSTROUTING -s 192.168.0.0/16 -j SNAT --to-source 10.151.72.78```
 
 **Penjelasan**:
 
-Kita menggunakan NAT Table pada POSTROUTING chain untuk mengubah _source address_ yang awalnya berupa _private IPv4 address_ yang memiliki 16-bit blok dari _private IP addresses_ yaitu **192.168.0.0/16** menjadi **IP eth0 SURABAYA** yaitu **10.151.72.78** karena **SURABAYA** adalah satu-satunya router yang terhubung ke cloud melalui **eth0**
+Kita menggunakan ```-t nat``` NAT Table pada ```-A POSTROUTING``` POSTROUTING chain untuk ```-j SNAT``` mengubah _source address_ yang awalnya berupa _private IPv4 address_ yang memiliki 16-bit blok dari _private IP addresses_ yaitu ```-s 192.168.0.0/16``` **192.168.0.0/16**  menjadi ```--to-source 10.151.72.78``` **IP eth0 SURABAYA** yaitu **10.151.72.78** karena **SURABAYA** adalah satu-satunya router yang terhubung ke cloud melalui **eth0**
 
-   
+## Soal 2
+Kita diminta untuk mendrop semua akses SSH dari luar topologi kita pada server yang memiliki IP DMZ (DHCP Server **MOJOKERTO** dan DNS SERVER **MALANG**) pada **SURABAYA** demi menjaga keamanan
+
+**Solusi**:
+
+Syntax berikut diatur pada router **SURABAYA**:
+
+```iptables -A FORWARD -d 10.151.73.152/29 -i eth0 -p tcp -m tcp --dport 22 -j DROP```
+
+**Penjelasan**:
+
+Kita menggunakan ```-A FORWARD``` FORWARD chain untuk menyaring paket dengan ```-p tcp -m tcp``` protokol TCP dari luar topologi menuju ke DHCP Server **MOJOKERTO** dan DNS Server **MALANG** (yang berada di satu subnet yang sama yaitu ```-d 10.151.73.152/29``` **10.151.73.152/29**), dimana akses SSH (yang memiliki ```--dport 22``` port 22) yang masuk ke DHCP Server **MOJOKERTO** dan DNS Server **MALANG** melalui ```-i eth0``` interfaces **eth0** dari  DHCP Server **MOJOKERTO** dan DNS Server **MALANG** agar ```-j DROP``` di DROP
+
+## Soal 3
+Karena tim kita maksimal terdiri dari 3 orang, Bibah meminta kita untuk membatasi DHCP Server **MOJOKERTO**
+dan DNS server **MALANG** hanya boleh menerima maksimal 3 koneksi ICMP secara bersamaan yang berasal dari mana saja menggunakan iptables pada masing masing server, selebihnya akan di DROP
+
+**Solusi**:
+
+Syntax berikut diatur pada DHCP Server **MOJOKERTO** dan DNS Server **MALANG**:
+
+```iptables -A INPUT -p icmp -m connlimit --connlimit-above 3 --connlimit-mask 0 -j DROP```
+
+**Penjelasan**:
+
+Kita menggunakan ```-A INPUT ```INPUT chain untuk menyaring paket dengan ```-p icmp``` protokol ICMP yang masuk agar dibatasi ```-m connlimit --connlimit-above 3``` hanya sebatas maksimal 3 koneksi saja ``` --connlimit-mask 0``` darimana saja, sehingga selebihnya akan ```-j DROP``` di DROP
+
 
