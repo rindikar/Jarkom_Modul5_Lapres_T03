@@ -117,6 +117,28 @@ Keterangan:
       
       ![ROUTE BATU 1_New](https://user-images.githubusercontent.com/49342639/103108063-c4657200-4676-11eb-8149-6e91a0b72020.PNG)
 
+6. Agar IP Dinamis yang diberikan kepada klien **GRESIK** dan **SIDOARJO** dapat berjalan, hal ini membutuhkan bantuan dari **MOJOKERTO (DHCP Server)**. Sehingga, kita perlu melakukan _setting_ konfigurasi DHCP Server di MOJOKERTO.
+   - Oleh karena itu, hal pertama yang kita lakukan pada server MOJOKERTO adalah menginstall DHCP Server menggunakan _command_ ```apt-get install isc-dhcp-server```
+   - Setelah proses penginstallan berhasil, kita mulai untuk melakukan _setting_ interfaces yang akan diberikan layanan DHCP oleh DHCP Server **MOJOKERTO** pada file **/etc/default/isc-dhcp-server**. Interfaces dari server **MOJOKERTO** hanya ada 1 (satu) interfaces yaitu ```eth0```, dimana interfaces ```eth0``` ini terhubung ke router **BATU** maka kita akan memilih interfaces ```eth0``` untuk diberikan layanan DHCP
+   
+       ![DHCP SERVER MOJOKERTO_New](https://user-images.githubusercontent.com/49342639/103111549-d0eec800-4680-11eb-976e-84e057a31f0c.PNG)
+   
+   - Agar DHCP Server **MOJOKERTO** dapat berjalan dengan lancar, maka kita perlu untuk melakukan deklarasi subnet yang terkoneksi pada **MOJOKERTO** yakni subnet _B1_, _A4_ dan _A3_ pada file **etc/dhcp/dhcpd.conf***
+     - Deklarasi subnet _B1_
+     - _**Note**:Untuk subnet _B1_ ini hanya harus dideklarasikan, tetapi tidak harus memiliki settingan DHCP
+     
+      ![DHCPD CONF MOJOKERTO SUBNET eth0 MOJOKERTO](https://user-images.githubusercontent.com/49342639/103111858-e74a5300-4683-11eb-8237-7d54f057e08c.PNG)
 
+      - Deklarasi subnet _A4_
+      
+       ![DHCPD CONF MOJOKERTO SUBNET A4](https://user-images.githubusercontent.com/49342639/103111981-c46c6e80-4684-11eb-84fd-a7eb694c0aa2.PNG)
+
+       _**Note**_: 
+       1. ```range 192.168.2.2 192.168.2.201;```: Subnet _A4_ mendapatkan peminjaman alamat IP dengan _range_ dari **192.168.2.2** (karena dari pembagian IP untuk setiap subnet menunjukkan bahwa subnet _A4_ mendapatkan IP 192.168.2.0) sampai dengan **192.168.2.201** (karena jumlah host di subnet _A4_ berjumlah 201)
+       2. ```option routers 192.168.2.1;```: IP gateway dari router menuju klien **SIDOARJO** adalah **192.168.2.1**
+       3. ```option broadcast-address 192.168.2.255;```: IP broadcast dari subnet _A4_ adalah **192.168.2.255**
+       4. ```option domain-name-servers 10.151.73.155 , 202.46.129.2 , 10.151.36.7;```: DNS yang ingin kita berikan kepada klien dari subnet _A4_ yang terdiri dari **IP MOJOKERTO (10.151.73.155), 202.46.129.2 dan 10.151.36.7 secara otomatis
+       5. ```default-lease-time 600;```: Lama waktu DHCP server meminjamkan alamat IP kepada klien dari subnet _A4_ adalah 10 menit (600 detik)
+       6. ```max-lease-time 7200;```: Waktu maksimal yang di alokasikan untuk peminjaman IP oleh DHCP server ke klien dari subnet _A4_ adalah 120 menit (7200 detik)
 
 
