@@ -225,4 +225,46 @@ Syntax berikut diatur pada DHCP Server **MOJOKERTO** dan DNS Server **MALANG**:
 
 Kita menggunakan ```-A INPUT ```INPUT chain untuk menyaring paket dengan ```-p icmp``` protokol ICMP yang masuk agar dibatasi ```-m connlimit --connlimit-above 3``` hanya sebatas maksimal 3 koneksi saja ``` --connlimit-mask 0``` darimana saja, sehingga selebihnya akan ```-j DROP``` di DROP
 
+kemudian kita diminta untuk membatasi akses ke MALANG yang berasal dari subnet **SIDOARJO** dan subnet **GRESIK** dengan peraturan sebagai berikut:
 
+4. Akses dari subnet SIDOARJO hanya diperbolehkan pada pukul 07.00 - 17.00 pada hari Senin sampai Jumat.
+5. Akses dari subnet GRESIK hanya diperbolehkan pada pukul 17.00 hingga pukul 07.00 setiap
+harinya.
+
+Selain kedua peraturan tersebut, paket akan di REJECT
+
+**Solusi untuk Soal 4**:
+
+Syntax berikut diatur pada server **MALANG**:
+
+```sh
+iptables -A INPUT -s 192.168.2.0/24 -m time --weekdays Sat,Sun -j REJECT
+iptables -A INPUT -s 192.168.2.0/24 -m time --timestart 00:00 --timestop 06:59 --weekdays Mon,Tue,Wed,Thu,Fri -j REJECT
+iptables -A INPUT -s 192.168.2.0/24 -m time --timestart 17:01 --timestop 23:59 --weekdays Mon,Tue,Wed,Thu,Fri -j REJECT
+``` 
+
+**Penjelasan**:
+
+Syntax 1: 
+
+- Kita menggunakan ```-A INPUT``` INPUT chain untuk menyaring paket yang masuk dari ```-s 192.168.2.0/24``` subnet **SIDOARJO** ```-m time --weekdays Sat,Sun``` di jam berapapun  pada hari Sabtu dan Minggu agar ```-j REJECT``` ditolak dan mengirimkan _error message_
+  
+Syntax 2:
+
+- Kita menggunakan ```-A INPUT``` INPUT chain untuk menyaring paket yang masuk dari ```-s 192.168.2.0/24``` subnet **SIDOARJO** ```-m time --timestart 00:00 --timestop 06:59``` di waktu jam 00:00 sampai dengan jam 06:59 ```--weekdays Mon,Tue,Wed,Thu,Fri``` pada hari Senin, Selasa, Rabu, Kamis, Jum'at agar ```-j REJECT``` ditolak dan mengirimkan _error message_
+
+Syntax 3:
+
+- Kita menggunakan ```-A INPUT``` INPUT chain untuk menyaring paket yang masuk dari ```-s 192.168.2.0/24``` subnet **SIDOARJO** ```-m time --timestart 17:01 --timestop 23:59``` di waktu jam 17:01 sampai dengan jam 23:59 ```--weekdays Mon,Tue,Wed,Thu,Fri``` pada hari Senin, Selasa, Rabu, Kamis, Jum'at agar ```-j REJECT``` ditolak dan mengirimkan _error message_
+
+**Solusi untuk Soal 5**:
+
+Syntax berikut diatur pada server **MALANG**:
+
+```sh
+iptables -A INPUT -s 192.168.1.0/24 -m time --timestart 07:01 --timestop 16:59 -j REJECT
+``` 
+
+**Penjelasan**:
+
+Kita menggunakan ```-A INPUT``` INPUT chain untuk menyaring paket yang masuk dari ```-s 192.168.1.0/24``` subnet **GRESIK** ```-m time --timestart 07:01 --timestop 16:59``` di waktu jam 07:01 sampai dengan jam 16:59 pada hari apapun agar ```-j REJECT``` ditolak dan mengirimkan _error message_
