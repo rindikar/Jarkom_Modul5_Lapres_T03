@@ -190,6 +190,7 @@ Agar topologi yang kita buat dapat mengakses keluar, kita diminta untuk mengkonf
 MASQUERADE.
 
 **Solusi**:
+
 Syntax berikut diatur pada router **SURABAYA**:
 
 ```iptables -t nat -A POSTROUTING -s 192.168.0.0/16 -j SNAT --to-source 10.151.72.78```
