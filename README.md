@@ -137,8 +137,8 @@ Keterangan:
        1. ```range 192.168.2.2 192.168.2.201;```: Subnet _A4_ mendapatkan peminjaman alamat IP dengan _range_ dari **192.168.2.2** (karena dari pembagian IP untuk setiap subnet menunjukkan bahwa subnet _A4_ mendapatkan IP 192.168.2.0) sampai dengan **192.168.2.201** (karena jumlah host di subnet _A4_ berjumlah 201)
        2. ```option routers 192.168.2.1;```: IP gateway dari router menuju klien **SIDOARJO** adalah **192.168.2.1**
        3. ```option broadcast-address 192.168.2.255;```: IP broadcast dari subnet _A4_ adalah **192.168.2.255**
-       4. ```option domain-name-servers 10.151.73.155 , 202.46.129.2 , 10.151.36.7;```: DNS yang ingin kita berikan kepada klien dari subnet _A4_ yang terdiri dari **IP MOJOKERTO (10.151.73.155), 202.46.129.2 dan 10.151.36.7 secara otomatis
-       5. ```default-lease-time 600;```: Lama waktu DHCP server meminjamkan alamat IP kepada klien dari subnet _A4_ adalah 10 menit (600 detik)
-       6. ```max-lease-time 7200;```: Waktu maksimal yang di alokasikan untuk peminjaman IP oleh DHCP server ke klien dari subnet _A4_ adalah 120 menit (7200 detik)
+       4. ```option domain-name-servers 10.151.73.155 , 202.46.129.2 , 10.151.36.7;```: DNS yang ingin kita berikan kepada klien dari subnet _A4_ **(SIDOARJO)** yang terdiri dari **IP MOJOKERTO (10.151.73.155), 202.46.129.2 dan 10.151.36.7 secara otomatis
+       5. ```default-lease-time 600;```: Lama waktu DHCP server meminjamkan alamat IP kepada klien dari subnet _A4_ **(SIDOARJO)**  adalah 10 menit (600 detik)
+       6. ```max-lease-time 7200;```: Waktu maksimal yang di alokasikan untuk peminjaman IP oleh DHCP server ke klien dari subnet _A4_ **(SIDOARJO)**  adalah 120 menit (7200 detik)
 
 
