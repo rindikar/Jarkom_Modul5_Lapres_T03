@@ -225,6 +225,7 @@ Syntax berikut diatur pada DHCP Server **MOJOKERTO** dan DNS Server **MALANG**:
 
 Kita menggunakan ```-A INPUT ```INPUT chain untuk menyaring paket dengan ```-p icmp``` protokol ICMP yang masuk agar dibatasi ```-m connlimit --connlimit-above 3``` hanya sebatas maksimal 3 koneksi saja ``` --connlimit-mask 0``` darimana saja, sehingga selebihnya akan ```-j DROP``` di DROP
 
+## Soal 4 dan 5
 kemudian kita diminta untuk membatasi akses ke MALANG yang berasal dari subnet **SIDOARJO** dan subnet **GRESIK** dengan peraturan sebagai berikut:
 
 4. Akses dari subnet SIDOARJO hanya diperbolehkan pada pukul 07.00 - 17.00 pada hari Senin sampai Jumat.
