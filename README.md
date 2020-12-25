@@ -184,7 +184,7 @@ Keterangan:
     1. ```SERVERS="10.151.73.154"```: Server **MOJOKERTO** diminta oleh DHCP Relay  **KEDIRI** untuk meneruskan DHCP Request, sehingga kita mengisi ```SERVERS=``` ini dengan IP dari DHCP Server **MOJOKERTO** yaitu 10.151.73.154
     2. ```INTERFACES="eth0 eth2"```: DHCP Relay **KEDIRI** akan meneruskan DHCP Request dari subnet _A3_ (**GRESIK**) dari network interfaces ```eth0 eth2```
     
-### Soal 1
+## Soal 1
 Agar topologi yang kita buat dapat mengakses keluar, kita diminta untuk mengkonfigurasi
 **SURABAYA** menggunakan **iptables**, namun Bibah tidak ingin kalian menggunakan
 MASQUERADE.
