@@ -23,13 +23,13 @@ Keterangan:
 ## Pembagian IP menggunakan metode VLSM
 1. Menentukan jumlah alamat IP yang dibutuhkan oleh **5 subnet (A1, A2, A3, A4 dan A5)**, _kecuali B1 karena subnet B1 akan mendapatkan subnet dari IP DMZ_
    
-   | Subnet | Jumlah IP | Netmask |
-   | :---:  | :---:     | :---:   |
-   | A1     | 2         | /30     |
-   | A2     | 2         | /30     |
-   | A3     | 211       | /24     | 
-   | A4     | 201       | /24     |  
-   | A5     | 3         | /29     |     
+   | Subnet | Jumlah Host  | Netmask |
+   | :---:  | :---:        | :---:   |
+   | A1     | 2            | /30     |
+   | A2     | 2            | /30     |
+   | A3     | 211          | /24     | 
+   | A4     | 201          | /24     |  
+   | A5     | 3            | /29     |     
    | **Total**   | **419**   | **/23**     |   
 
    Namun, netmask **/23** tidak dapat kita gunakan untuk memberikan pengalamatan IP pada 5 subnet karena pohon yang akan dihasilkan oleh netmask **/23** tidak cukup. Sehingga, kita akan menggunakan netmask **/22** untuk memberikan pengalaman IP pada 5 subnet.
